@@ -10,7 +10,7 @@ def create_mcq(description, options, correct_answer, hint):
     
     correct_answer_index = options.index(correct_answer)
     
-    radio_options = [(words, i) for i, words in enumerate(options)]
+    radio_options = options #[(words, i) for i, words in enumerate(options)]
     alternativ = widgets.RadioButtons(
         options = radio_options,
         description = '',
