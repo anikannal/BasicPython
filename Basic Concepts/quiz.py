@@ -10,10 +10,11 @@ def create_mcq(description, options, correct_answer, hint):
     
     correct_answer_index = options.index(correct_answer)
     
-    radio_options = options #[(words, i) for i, words in enumerate(options)]
+    radio_options = [(words, i) for i, words in enumerate(options)]
     alternativ = widgets.RadioButtons(
         options = radio_options,
         description = '',
+        layout={'width': 'max-content'},
         disabled = False,
         indent = False,
         align = 'center',
@@ -27,7 +28,7 @@ def create_mcq(description, options, correct_answer, hint):
     feedback_out = widgets.Output()
 
     def check_selection(b):
-        a = int(alternativ.value)
+        a = int(float(alternativ.value))
         if a==correct_answer_index:
             s = '\x1b[6;30;42m' + "correct" + '\x1b[0m' +"\n"
         else:
@@ -40,22 +41,22 @@ def create_mcq(description, options, correct_answer, hint):
     check = widgets.Button(description="check")
     check.on_click(check_selection)
     
-    hint_out = widgets.Output()
+#    hint_out = widgets.Output()
     
-    def hint_selection(b):
-        with hint_out:
-            print(hint)
+#     def hint_selection(b):
+#         with hint_out:
+#             print(hint)
             
-        with feedback_out:
-            feedback_out.clear_output()
-            print(hint)
+#         with feedback_out:
+#             feedback_out.clear_output()
+#             print(hint)
     
-    hintbutton = widgets.Button(description="hint")
-    hintbutton.on_click(hint_selection)
+    #hintbutton = widgets.Button(description="hint")
+    #hintbutton.on_click(hint_selection)
     
     return widgets.VBox([description_out, 
                          alternativ, 
-                         widgets.HBox([hintbutton, check]), feedback_out], 
+                         widgets.HBox([check]), feedback_out], 
                         layout=Layout(display='flex',
                                      flex_flow='column',
                                      align_items='stretch',
@@ -64,7 +65,8 @@ def create_mcq(description, options, correct_answer, hint):
 
 
 def quiz_me(filename):
-    df = pandas.read_excel(filename, sheet_name='Sheet1')
+    #print(__file__)
+    df = pandas.read_excel("../data/quizzes/"+filename, sheet_name='Sheet1')
     
     questions = []
 
